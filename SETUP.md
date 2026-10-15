@@ -1,38 +1,42 @@
-# Try the starter with an AI coding agent
+# Connect the guidance to your agent
 
-## The quick answer
+## 1. Put the files in the project where the agent works
 
-There is nothing to install. This repository is a set of example files. To try the idea, copy the relevant files into the code project where you want the agent to use your design system.
+Copy `DESIGN.md` into that project's root. Replace its placeholders with the paths or URLs for your tokens, components, and patterns.
 
-For example: if you want Codex to use the guidance while editing your app, put the files in the app's repository. Keeping them only in this starter repository will not affect the app or Codex.
+Start with [templates/rules.md](templates/rules.md) and fill it with decisions confirmed by your design system owners.
 
-There are two different roles: the agent-specific instruction (such as `AGENTS.md`) is the **discovery point**; `DESIGN.md` is the **design context map** it points to. `DESIGN.md` does not make itself load.
+Put `rules.md` next to the component's source, or in `components/<name>/` if that's simpler, and update the path in `DESIGN.md`.
 
-## First try with Codex
+To inspect this starter as provided, use [components/card/rules.md](components/card/rules.md), the filled-in example from the article.
 
-1. In your app's repository, copy `DESIGN.md` and the `components/` folder from this starter. Put them in the top-level project folder, next to folders such as `src/` or files such as `package.json`.
-2. Replace the example links in `DESIGN.md` with links to your real tokens, components, and patterns. You can start with one component rule; you do not need to document everything.
-3. In that same top-level folder, find `AGENTS.md`. If it exists, add this at the end. If not, create a plain text file named `AGENTS.md` and paste this in:
+## 2. Add the discovery instruction
 
-   ```md
-   For UI work, read `DESIGN.md` first. Follow its links to relevant guidance. Read a component's `rules.md` only when working with that component.
-   ```
+Merge the instruction from [AGENTS.md](AGENTS.md) into your project's existing agent instructions:
 
-4. Open the app project in Codex and ask: “Before editing anything, find `DESIGN.md` and the button rule it points to. Tell me which files you read and summarize the button guidance. Do not make changes.”
-5. If Codex finds the files, try the comparison in [EXPERIMENT.md](EXPERIMENT.md). Use a new conversation for each run.
+```md
+For UI work, read `DESIGN.md` first and follow its links
+to the relevant guidance. Read a component's `rules.md`
+only when working with that component.
+```
 
-If you only want to inspect this starter, open `README.md`, `DESIGN.md`, and `components/example/rules.md`. That does not connect it to an agent.
+Use the mechanism supported by your environment:
 
-## What progressive disclosure means here
+- If your agent reads `AGENTS.md`, add the instruction there.
+- For Claude Code, add it to your project's `CLAUDE.md`. See the [project instructions documentation](https://code.claude.com/docs/en/memory).
+- For Cursor, create a project rule at `.cursor/rules/design-system.mdc`, set its type to **Always Apply**, and paste the instruction into the rule body. See the [rules documentation](https://cursor.com/docs/rules).
+- For other environments, add the instruction through their supported project-guidance mechanism.
 
-The intended sequence is: the agent reads its project instruction; that instruction points it to `DESIGN.md` for UI work; `DESIGN.md` points it to relevant source documents; the agent opens a component's rules only when the task involves that component. This keeps detailed rules out of the always-loaded instruction.
+Choose the route used by your team and preserve any existing instructions.
 
-This is a workflow, not a guarantee. A Markdown pointer cannot force an agent to open or follow a file. For deterministic loading, an integration has to fetch and supply the right files. Even then, check whether the agent applied the guidance.
+## 3. Check discovery
 
-## Other coding agents
+If your agent doesn't read `AGENTS.md`, set up the instruction first (step 2).
 
-Use the same idea with the project instruction format your tool supports. Claude Code commonly uses `CLAUDE.md`; Cursor uses `.cursor/rules/`. Check the current official setup instructions before adapting the short Codex example above. You do not need to configure multiple agents to try this starter.
+Open a fresh agent session in this starter repository and ask:
 
-- [Codex project instructions](https://developers.openai.com/codex/guides/agents-md)
-- [Claude Code memory and project instructions](https://code.claude.com/docs/en/memory)
-- [Cursor project rules](https://cursor.com/docs/rules)
+> Before editing anything, follow the project's agent instructions for a UI task using Card. Report which guidance you read, explain the choice between Default and Subtle, and flag any missing information. Do not change files.
+
+Check for reads of `DESIGN.md` and `components/card/rules.md` in the tool logs, where available. If you adapted the files to another project, use that component's name and paths instead.
+
+Then use [EXPERIMENT.md](EXPERIMENT.md) to compare runs on a real UI task in your project.
