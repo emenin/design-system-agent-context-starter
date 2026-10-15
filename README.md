@@ -1,40 +1,93 @@
-# Design system agent context starter
+# Design System Agent Context Starter
 
-**An open experiment** in helping AI agents find and apply design-system decisions.
+A small, experimental starting point for making existing design system knowledge easier for AI agents to find and apply.
 
-A small starter kit for trying the approach in your own project.
+Built around two Markdown files:
 
-## What this is — and what it isn't
+- `DESIGN.md` helps agents navigate existing design system knowledge.
+- `rules.md` captures component decisions that aren't obvious from the API or are difficult to find in existing documentation.
 
-**This is** a small, open experiment: a starter kit for testing whether design-system guidance helps an AI agent make better UI decisions in your project.
+The goal is to start small, test what agents get wrong, and improve the guidance based on what you learn.
 
-**This isn't** a ready-to-install tool or a proven solution. It won't automatically connect to your agent or ensure that it reads and follows the guidance. You'll need to point your agent to `DESIGN.md` using the project instructions it supports.
+## Why this exists
+
+An AI agent with access to an entire design system still needs to find the guidance relevant to its task.
+
+Some decisions are documented but difficult to discover. Others are implicit, outdated, or scattered across different sources.
+
+This starter kit explores a lightweight way to make those decisions more accessible without rewriting the entire design system documentation.
 
 ## What's included
 
-- [`DESIGN.md`](DESIGN.md): a short map to your design system's sources of truth. The agent-specific instruction tells the agent when to open it.
-- [`components/example/rules.md`](components/example/rules.md): a reusable component-level rules template.
-- [`SETUP.md`](SETUP.md): ways to connect the files to an agent.
-- [`EXPERIMENT.md`](EXPERIMENT.md): a repeatable before-and-after test.
-- [`SOURCES.md`](SOURCES.md): research and documentation informing this proposal.
+- [DESIGN.md](DESIGN.md): an entry point to existing design system sources.
+- [AGENTS.md](AGENTS.md): an example instruction for agent discovery.
+- [templates/rules.md](templates/rules.md): a reusable component guidance template.
+- [components/card/rules.md](components/card/rules.md): the template filled in with the Card decisions described in the article.
+- [SETUP.md](SETUP.md): a short guide to connecting the files to your agent.
+- [EXPERIMENT.md](EXPERIMENT.md): a comparison workflow and a blank table for recording your runs.
+- [LICENSE](LICENSE): the MIT license.
 
-## Try it with your system
+## How to use
 
-**Nothing to install:** this repository is a set of example files. To try it, copy the relevant files into the code repository where you want the agent to work, then add a short project instruction that points to them. See the beginner path in [SETUP.md](SETUP.md). The starter repository itself does not change how an agent behaves.
+### 1. Start with a problem
 
-1. Copy `DESIGN.md` into the project repository where the agent will work and replace each placeholder with a real path or URL to your design system sources.
-2. Choose a component where an agent has made a repeatable, observable mistake.
-3. Check the existing documentation and code before writing a rule. Preserve existing decisions; flag disagreements for human review.
-4. Add a component-level `rules.md` with only the relevant guidance and sources.
-5. Add a short discovery instruction using the format your agent supports. See [SETUP.md](SETUP.md).
-6. Run the same task with and without the guidance and record what changed. See [EXPERIMENT.md](EXPERIMENT.md).
+Choose a component or pattern an AI agent has been using incorrectly.
 
-Keep the test task, model, tools, and other context as consistent as possible. Use separate fresh sessions for each run so the baseline does not carry the new rule into the comparison. Treat the results as observations, not proof; repeat runs before drawing conclusions.
+Avoid documenting the entire design system upfront.
 
-## Adapt the component template
+### 2. Check existing guidance
 
-The component file uses placeholders rather than prescribing design decisions. Replace them with guidance confirmed by your own design system documentation and code. Don't copy rules from another system without validating them.
+Find out whether the correct decision is already documented.
 
-## Possible next steps
+If it exists, reference the source.
 
-If repeated use shows a real need, this could grow into tooling. A CLI might scaffold files, check links, or verify that an agent can access the guidance. An MCP server might let agents retrieve relevant guidance on demand. Those are directions to validate with users; they are not part of this starter kit.
+If it's missing or ambiguous, clarify the decision with the appropriate design system owners.
+
+### 3. Configure DESIGN.md
+
+Update `DESIGN.md` with the relevant paths or URLs for your design system.
+
+Keep it short. The file should help agents find information, not duplicate the entire documentation library.
+
+### 4. Add component rules
+
+Start with a copy of `templates/rules.md`.
+
+Put `rules.md` next to the component's source, or in `components/<name>/` if that's simpler, and update the path in `DESIGN.md`.
+
+The included Card example uses the same structure, with the optional Exceptions section omitted. Replace its source placeholders and decisions with guidance from your own system.
+
+Document only the decisions relevant to the problem you're investigating.
+
+Include the reasoning behind each decision.
+
+### 5. Connect the agent
+
+Follow [SETUP.md](SETUP.md) to configure your agent to read `DESIGN.md` before working on UI and check that it can find the relevant component rules.
+
+### 6. Test and refine
+
+Use [EXPERIMENT.md](EXPERIMENT.md) to compare runs and record the expected decision, its source, and what happened.
+
+## Keeping guidance up to date
+
+Review component rules as part of the same pull request when the component changes. Confirm the decisions with the appropriate design system owners.
+
+## About DESIGN.md
+
+Here, `DESIGN.md` is a project-specific map to existing knowledge. Other tools use the same filename for different purposes. Adapt the filename and discovery instructions to your environment; this kit does not implement those other formats.
+
+## Limitations
+
+This starter kit is experimental and has not been validated. Creating the files alone does not ensure that an agent will find or follow them. UI validation, documentation updates, and keeping rules aligned with component code remain manual work. The Card decisions describe the context in the article; they need review before use in another design system.
+
+## Further reading
+
+- [Atlassian — DESIGN.md](https://www.atlassian.com/blog/how-we-build/atlassians-design-md-is-here-what-we-learned-testing-portable-design-context-in-practice)
+- [Figma — Write design system guidelines for Make kits](https://help.figma.com/hc/en-us/articles/43602393097239-Write-design-system-guidelines-for-Make-kits)
+- [TJ Pitre — Anatomy of an AI-Ready Design System](https://southleft.substack.com/p/anatomy-of-an-ai-ready-design-system)
+- [Nathan Curtis — Component Contracts and Schemas](https://nathanacurtis.substack.com/p/component-contracts-and-schemas)
+
+## License
+
+MIT. See [LICENSE](LICENSE).
